@@ -1,6 +1,6 @@
 {
   "name": "burton",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "File type validation for hapi raw stream request payloads",
   "main": "lib/index.js",
   "scripts": {
