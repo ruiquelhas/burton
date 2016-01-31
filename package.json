@@ -29,14 +29,16 @@
   "homepage": "https://github.com/ruiquelhas/burton#readme",
   "devDependencies": {
     "code": "2.x.x",
+    "content": "3.x.x",
     "coveralls": "2.x.x",
     "form-data": "0.x.x",
-    "hapi": "12.x.x",
-    "lab": "8.x.x",
+    "hapi": "13.x.x",
+    "lab": "9.x.x",
     "stream-to-promise": "1.x.x"
   },
   "dependencies": {
     "henning": "1.x.x",
+    "recourier": "1.x.x",
     "subtext": "4.x.x"
   },
   "engines": {
