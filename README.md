@@ -19,7 +19,7 @@ $ npm install burton
 ```
 
 ## Usage
-Register the package as a server plugin to enable validation for each route that does not parse -- `parse: false` -- into a stream, the files in the request payload -- `output: 'stream'`. For every other route with a different configuration, the validation is skipped.
+Register the package as a server plugin to enable validation for each route that does not parse — `parse: false` — into a stream, the files in the request payload — `output: 'stream'`. For every other route with a different configuration, the validation is skipped.
 
 If the validation fails, a [joi](https://github.com/hapijs/joi)-like `400 Bad Request` error is returned alongside an additional `content-validation: failure` response header. If everything is ok, the response will ultimately contain a `content-validation: success` header.
 
