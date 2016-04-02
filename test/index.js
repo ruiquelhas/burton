@@ -27,7 +27,7 @@ lab.experiment('burton', () => {
         const plugin = {
             register: Burton,
             options: {
-                whitelist: ['png']
+                whitelist: ['image/png']
             }
         };
 
@@ -71,31 +71,15 @@ lab.experiment('burton', () => {
         server.inject({ method: 'POST', url: '/ignore' }, (response) => {
 
             Code.expect(response.statusCode).to.equal(200);
-            Code.expect(response.headers['content-validation']).to.not.exist();
+            Code.expect(response.headers['content-validation']).to.equal('success');
             done();
-        });
-    });
-
-    lab.test('should return control to the server if the payload does not contain any file', (done) => {
-
-        const form = new FormData();
-        form.append('foo', 'bar');
-
-        StreamToPromise(form).then((payload) => {
-
-            server.inject({ headers: form.getHeaders(), method: 'POST', payload: payload, url: '/main' }, (response) => {
-
-                Code.expect(response.statusCode).to.equal(200);
-                Code.expect(response.headers['content-validation']).to.not.exist();
-                done();
-            });
         });
     });
 
     lab.test('should return error if the payload cannot be parsed', (done) => {
 
         const png = Path.join(Os.tmpdir(), 'foo.png');
-        Fs.createWriteStream(png).end(new Buffer([0x89, 0x50]));
+        Fs.createWriteStream(png).end(new Buffer('89504e47', 'hex'));
 
         const form = new FormData();
         form.append('file', Fs.createReadStream(png));
@@ -114,7 +98,7 @@ lab.experiment('burton', () => {
     lab.test('should return control to the server if all files the in payload are allowed', (done) => {
 
         const png = Path.join(Os.tmpdir(), 'foo.png');
-        Fs.createWriteStream(png).end(new Buffer([0x89, 0x50]));
+        Fs.createWriteStream(png).end(new Buffer('89504e47', 'hex'));
 
         const form = new FormData();
         form.append('file1', Fs.createReadStream(png));
