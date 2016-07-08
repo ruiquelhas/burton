@@ -6,7 +6,7 @@
   "scripts": {
     "changelog": "github_changelog_generator --header-label='# Changelog'",
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls",
-    "test": "lab -a code -t 100 -L",
+    "test": "lab -a code -t 100 -L -I @@any-promise/REGISTRATION",
     "test-tap": "lab -a code -r tap -o tests.tap",
     "test-cov-html": "lab -a code -r html -o coverage.html"
   },
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/ruiquelhas/burton#readme",
   "devDependencies": {
-    "code": "2.x.x",
+    "code": "3.x.x",
     "content": "3.x.x",
     "coveralls": "2.x.x",
     "form-data": "0.x.x",
