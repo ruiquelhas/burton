@@ -6,10 +6,9 @@ const Path = require('path');
 
 const Code = require('code');
 const Content = require('content');
-const FormData = require('form-data');
+const Form = require('multi-part');
 const Hapi = require('hapi');
 const Lab = require('lab');
-const StreamToPromise = require('stream-to-promise');
 
 const Burton = require('../lib/');
 
@@ -81,17 +80,14 @@ lab.experiment('burton', () => {
         const png = Path.join(Os.tmpdir(), 'foo.png');
         Fs.createWriteStream(png).end(new Buffer('89504e47', 'hex'));
 
-        const form = new FormData();
+        const form = new Form();
         form.append('file', Fs.createReadStream(png));
 
-        StreamToPromise(form).then((payload) => {
+        server.inject({ headers: { 'Content-Type': 'application/json' }, method: 'POST', payload: form.get(), url: '/main' }, (response) => {
 
-            server.inject({ headers: { 'Content-Type': 'application/json' }, method: 'POST', payload: payload, url: '/main' }, (response) => {
-
-                Code.expect(response.statusCode).to.equal(415);
-                Code.expect(response.headers['content-validation']).to.not.exist();
-                done();
-            });
+            Code.expect(response.statusCode).to.equal(415);
+            Code.expect(response.headers['content-validation']).to.not.exist();
+            done();
         });
     });
 
@@ -100,20 +96,17 @@ lab.experiment('burton', () => {
         const png = Path.join(Os.tmpdir(), 'foo.png');
         Fs.createWriteStream(png).end(new Buffer('89504e47', 'hex'));
 
-        const form = new FormData();
+        const form = new Form();
         form.append('file1', Fs.createReadStream(png));
         form.append('file2', Fs.createReadStream(png));
         form.append('foo', 'bar');
 
-        StreamToPromise(form).then((payload) => {
+        server.inject({ headers: form.getHeaders(), method: 'POST', payload: form.get(), url: '/main' }, (response) => {
 
-            server.inject({ headers: form.getHeaders(), method: 'POST', payload: payload, url: '/main' }, (response) => {
-
-                Code.expect(response.statusCode).to.equal(200);
-                Code.expect(response.headers['content-validation']).to.equal('success');
-                Code.expect(Content.type(response.headers['content-type']).mime).to.equal('multipart/form-data');
-                done();
-            });
+            Code.expect(response.statusCode).to.equal(200);
+            Code.expect(response.headers['content-validation']).to.equal('success');
+            Code.expect(Content.type(response.headers['content-type']).mime).to.equal('multipart/form-data');
+            done();
         });
     });
 });
