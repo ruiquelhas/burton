@@ -1,6 +1,17 @@
 # Changelog
 
-## [v3.0.1](https://github.com/ruiquelhas/burton/tree/v3.0.1) (2016-04-03)
+## [v3.0.2](https://github.com/ruiquelhas/burton/tree/v3.0.2) (2016-07-08)
+[Full Changelog](https://github.com/ruiquelhas/burton/compare/v3.0.1...v3.0.2)
+
+**Closed issues:**
+
+- Simplify test suite [\#8](https://github.com/ruiquelhas/burton/issues/8)
+
+**Merged pull requests:**
+
+- Update test suite to use stream payloads [\#9](https://github.com/ruiquelhas/burton/pull/9) ([ruiquelhas](https://github.com/ruiquelhas))
+
+## [v3.0.1](https://github.com/ruiquelhas/burton/tree/v3.0.1) (2016-04-02)
 [Full Changelog](https://github.com/ruiquelhas/burton/compare/v3.0.0...v3.0.1)
 
 **Merged pull requests:**
