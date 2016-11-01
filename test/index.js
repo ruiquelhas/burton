@@ -78,12 +78,12 @@ lab.experiment('burton', () => {
     lab.test('should return error if the payload cannot be parsed', (done) => {
 
         const png = Path.join(Os.tmpdir(), 'foo.png');
-        Fs.createWriteStream(png).end(new Buffer('89504e47', 'hex'));
+        Fs.createWriteStream(png).end(Buffer.from('89504e47', 'hex'));
 
         const form = new Form();
         form.append('file', Fs.createReadStream(png));
 
-        server.inject({ headers: { 'Content-Type': 'application/json' }, method: 'POST', payload: form.get(), url: '/main' }, (response) => {
+        server.inject({ headers: { 'Content-Type': 'application/json' }, method: 'POST', payload: form.stream(), url: '/main' }, (response) => {
 
             Code.expect(response.statusCode).to.equal(415);
             Code.expect(response.headers['content-validation']).to.not.exist();
@@ -94,14 +94,14 @@ lab.experiment('burton', () => {
     lab.test('should return control to the server if all files the in payload are allowed', (done) => {
 
         const png = Path.join(Os.tmpdir(), 'foo.png');
-        Fs.createWriteStream(png).end(new Buffer('89504e47', 'hex'));
+        Fs.createWriteStream(png).end(Buffer.from('89504e47', 'hex'));
 
         const form = new Form();
         form.append('file1', Fs.createReadStream(png));
         form.append('file2', Fs.createReadStream(png));
         form.append('foo', 'bar');
 
-        server.inject({ headers: form.getHeaders(), method: 'POST', payload: form.get(), url: '/main' }, (response) => {
+        server.inject({ headers: form.getHeaders(), method: 'POST', payload: form.stream(), url: '/main' }, (response) => {
 
             Code.expect(response.statusCode).to.equal(200);
             Code.expect(response.headers['content-validation']).to.equal('success');
