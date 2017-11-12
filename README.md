@@ -3,7 +3,7 @@ File type validation for [hapi](https://github.com/hapijs/hapi) raw stream `mult
 
 Like most modern magicians, builds on the work, knowledge and influence of others before it, in this case, [henning](https://github.com/ruiquelhas/henning).
 
-[![NPM Version][fury-img]][fury-url] [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Dependencies][david-img]][david-url]
+[![NPM Version][version-img]][version-url] [![Build Status][travis-img]][travis-url] [![Coverage Status][coveralls-img]][coveralls-url] [![Dependencies][david-img]][david-url] [![Dev Dependencies][david-dev-img]][david-dev-url]
 
 ## Table of Contents
 - [Installation](#installation)
@@ -31,23 +31,11 @@ Also, if the `Content-Type` request header is not `multipart/form-data`, a `415 
 const Hapi = require('hapi');
 const Burton = require('burton');
 
-const server = new Hapi.Server();
-server.connection({
-    // go nuts
-});
-
-const plugin = {
-    register: Burton,
-    options: {
-        // Allow png files only
-        whitelist: ['image/png']
-    }
-};
-
-server.register(plugin, (err) => {
+try {
+    const server = new Hapi.Server();
 
     server.route({
-        config: {
+        options: {
             payload: {
                 output: 'stream',
                 parse: false
@@ -56,20 +44,31 @@ server.register(plugin, (err) => {
         }
     });
 
-    server.start(() => {
-        // go nuts
+    await server.register({
+        plugin: Burton,
+        options: {
+            // Allow png files only
+            whitelist: ['image/png']
+        }
     });
-});
+
+    await server.start();
+}
+catch (err) {
+    throw err;
+}
 ```
 
 ## Supported File Types
-The same as [file-type](https://github.com/sindresorhus/file-type#supported-file-types).
+The same as [file-type](https://github.com/sindresorhus/file-type/tree/v7.0.0#supported-file-types).
 
-[coveralls-img]: https://coveralls.io/repos/ruiquelhas/burton/badge.svg
+[coveralls-img]: https://img.shields.io/coveralls/ruiquelhas/burton.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/github/ruiquelhas/burton
-[david-img]: https://david-dm.org/ruiquelhas/burton.svg
+[david-img]: https://img.shields.io/david/ruiquelhas/burton.svg?style=flat-square
 [david-url]: https://david-dm.org/ruiquelhas/burton
-[fury-img]: https://badge.fury.io/js/burton.svg
-[fury-url]: https://badge.fury.io/js/burton
-[travis-img]: https://travis-ci.org/ruiquelhas/burton.svg
+[david-dev-img]: https://img.shields.io/david/dev/ruiquelhas/burton.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/ruiquelhas/burton?type=dev
+[version-img]: https://img.shields.io/npm/v/burton.svg?style=flat-square
+[version-url]: https://www.npmjs.com/package/burton
+[travis-img]: https://img.shields.io/travis/ruiquelhas/burton.svg?style=flat-square
 [travis-url]: https://travis-ci.org/ruiquelhas/burton
