@@ -31,23 +31,11 @@ Also, if the `Content-Type` request header is not `multipart/form-data`, a `415 
 const Hapi = require('hapi');
 const Burton = require('burton');
 
-const server = new Hapi.Server();
-server.connection({
-    // go nuts
-});
-
-const plugin = {
-    register: Burton,
-    options: {
-        // Allow png files only
-        whitelist: ['image/png']
-    }
-};
-
-server.register(plugin, (err) => {
+try {
+    const server = new Hapi.Server();
 
     server.route({
-        config: {
+        options: {
             payload: {
                 output: 'stream',
                 parse: false
@@ -56,14 +44,23 @@ server.register(plugin, (err) => {
         }
     });
 
-    server.start(() => {
-        // go nuts
+    await server.register({
+        plugin: Burton,
+        options: {
+            // Allow png files only
+            whitelist: ['image/png']
+        }
     });
-});
+
+    await server.start();
+}
+catch (err) {
+    throw err;
+}
 ```
 
 ## Supported File Types
-The same as [file-type](https://github.com/sindresorhus/file-type#supported-file-types).
+The same as [file-type](https://github.com/sindresorhus/file-type/tree/v7.0.0#supported-file-types).
 
 [coveralls-img]: https://coveralls.io/repos/ruiquelhas/burton/badge.svg
 [coveralls-url]: https://coveralls.io/github/ruiquelhas/burton
