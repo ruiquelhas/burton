@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.0.0](https://github.com/ruiquelhas/burton/tree/v4.0.0) (2017-11-12)
+[Full Changelog](https://github.com/ruiquelhas/burton/compare/v3.0.3...v4.0.0)
+
+**Merged pull requests:**
+
+- Add support for hapi v17 [\#11](https://github.com/ruiquelhas/burton/pull/11) ([ruiquelhas](https://github.com/ruiquelhas))
+
 ## [v3.0.3](https://github.com/ruiquelhas/burton/tree/v3.0.3) (2016-11-01)
 [Full Changelog](https://github.com/ruiquelhas/burton/compare/v3.0.2...v3.0.3)
 
